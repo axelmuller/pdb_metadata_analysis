@@ -10,37 +10,52 @@ def error():
 def header_extract(header):
     """Extracts a name, date of submission and pdb Id into a dictionary"""
     split = header.split()
-    out_dict = {'HEADER': split[1], 
-                'DATE': split[2], 
-                'pdb_entry': split[-1]}
+    try:
+        out_dict = {'HEADER': split[1], 
+                    'DATE': split[2], 
+                    'pdb_entry': split[3]}
+    except:
+        out_dict = {'HEADER': 'ERROR', 
+                    'DATE': 'ERROR', 
+                    'pdb_entry': 'ERROR'}
     return(out_dict)
 
 def expression_taxid_extract(expression_system_taxid_entry):
     """Exctracts the TAXID of the expression system"""
     # this might run into problems if multiple expression systems are used
-    split = expression_system_taxid_entry.split(':')[1].strip()
-    #out_dict = {'SOURCE_EXPRESSION_SYSTEM_TAXID': split}
-    #return(out_dict)
+    try:
+        split = expression_system_taxid_entry.split(':')[1].strip()
+    except:
+        split = 'ERROR'
     return(split)
     
 
 def source_organsim_taxid_extract(source_taxid):
     """Extracts the TAXID of the source organism"""
-    taxid = source_taxid.split(':')[1].strip()
-    # strip punctuation
-    taxid = taxid.translate(str.maketrans('', '', string.punctuation))
+    try:
+        taxid = source_taxid.split(':')[1].strip()
+        # strip punctuation
+        taxid = taxid.translate(str.maketrans('', '', string.punctuation))
+    except:
+        taxid = 'ERROR'
     return(taxid)
 
 def keywords_extract(keywds_info):
     """Extracts Keywords associated with PDB entry"""
     # Potential problem: KEYWDS might cover multiple lines
-    keywords = keywds_info.split()[1:]
+    try:
+        keywords = keywds_info.split()[1:]
+    except:
+        keywords = ['ERROR']
     return(keywords)
 
 def experimental_method_extract(expdta):
     """Extracts the experimental method applied"""
-    method = expdta.split(' ', 1)[1].strip()
-    out_dict = {'EXPDTA': method}
+    try:
+        method = expdta.split(' ', 1)[1].strip()
+        out_dict = {'EXPDTA': method}
+    except:
+        out_dict = {'EXPDTA': 'ERROR'}
     return(out_dict)
 
 def journal_doi_extract(journal_doi):
@@ -97,57 +112,84 @@ def which_beamline(beamline_info):
 
 def which_intensity_integration_software(software_info):
     """Extracts the integration software used"""
-    intensity_software = software_info.split(':')[1].strip()
-    out_dict = {'INTENSITY_INTEGRATION_SOFTWARE': intensity_software}
+    try:
+        intensity_software = software_info.split(':')[1].strip()
+        out_dict = {'INTENSITY_INTEGRATION_SOFTWARE': intensity_software}
+    except:
+        out_dict = {'INTENSITY_INTEGRATION_SOFTWARE': 'ERROR'}
     return(out_dict)
 
 def which_scaling_software(scaling_info):
     """Extracts the scaling software used"""
-    scaling_software = scaling_info.split(':')[1].strip()
-    out_dict = {'DATA_SCALING_SOFTWARE': scaling_software}
+    try:
+        scaling_software = scaling_info.split(':')[1].strip()
+        out_dict = {'DATA_SCALING_SOFTWARE': scaling_software}
+    except:
+        out_dict = {'DATA_SCALING_SOFTWARE': 'ERROR'}
     return(out_dict)
 
 def which_method_of_structure_determination(structure_method_info):
     """Extracts information on how the structure was determined"""
-    structure_method = structure_method_info.split(':')[1].strip()
-    out_dict = {'METHOD_TO_DETERMINE_STRUCTURE': structure_method}
+    try:
+        structure_method = structure_method_info.split(':')[1].strip()
+        out_dict = {'METHOD_TO_DETERMINE_STRUCTURE': structure_method}
+    except:
+        out_dict = {'METHOD_TO_DETERMINE_STRUCTURE': 'ERROR'}
     return(out_dict)
 
 def which_software_struture_determination(structure_software):
     """Extracts software used for structure determination"""
-    software = structure_software.split(':')[1].strip()
-    out_dict = {'SOFTWARE_TO_DETERMINE_STRUCTURE': software}
+    try:
+        software = structure_software.split(':')[1].strip()
+        out_dict = {'SOFTWARE_TO_DETERMINE_STRUCTURE': software}
+    except:
+        out_dict = {'SOFTWARE_TO_DETERMINE_STRUCTURE': 'ERROR'}
     return(out_dict)
 
 def which_model(model_info):
     """Extracts pdb entry used for structure determination"""
-    model = model_info.split(':')[1].strip()
-    out_dict = {'STARTING_MODEL': model}
+    try:
+        model = model_info.split(':')[1].strip()
+        out_dict = {'STARTING_MODEL': model}
+    except:
+        out_dict = {'STARTING_MODEL': 'ERROR'} 
     return(out_dict)
 
 def solvent_content_extract(solvent_content_info):
     """Extract solvent content"""
-    solvent_content = solvent_content_info.split(':')[1].strip()
-    out_dict = {'SOLVENT_CONTENT': solvent_content}
+    try:
+        solvent_content = solvent_content_info.split(':')[1].strip()
+        out_dict = {'SOLVENT_CONTENT': solvent_content}
+    except:
+        out_dict = {'SOLVENT_CONTENT': 'ERROR'}
     return(out_dict)
 
 def matthews_extract(matthews_info):
     """Extract Matthew's coefficient """
-    matthews = matthews_info.split(':')[1].strip()
-    out_dict = {'MATTHEWS_COEFFICIENT': matthews}
+    try:
+        matthews = matthews_info.split(':')[1].strip()
+        out_dict = {'MATTHEWS_COEFFICIENT': matthews}
+    except:
+        out_dict = {'MATTHEWS_COEFFICIENT': 'ERROR'}
     return(out_dict)
 
 def hetnam_extract(hetnam_info):
     """Extracts names of hetero molecules in structure"""
     # this is likely to occur several times, make sure all values are maintained
     # hetnam = hetnam_info.split(' ',2)[1].strip()
-    hetnam = ' '.join(hetnam_info.split()[2:])
+    try:
+        hetnam = ' '.join(hetnam_info.split()[2:])
+    except:
+        hetnam = 'ERROR'
     return(hetnam)
 
 def unit_cell_extract(cryst_info):
     """Extracts unit cell parameters"""
-    cryst = cryst_info.split(' ', 1)[1].strip()
-    out_dict = {'CRYST': cryst}
+    try:
+        cryst = cryst_info.split(' ', 1)[1].strip()
+        out_dict = {'CRYST': cryst}
+    except:
+        out_dict = {'CRYST': 'ERROR'}
     return(out_dict)
 
 def update_dict_list(reference_dictionary, key2update, new_list):

@@ -3,17 +3,20 @@ import pdb_extr
 def test_header_extract():
     """Perform unit tests on header_extract"""
     assert pdb_extr.header_extract('HEADER    FLAVOPROTEIN                            05-JUN-18   5ZZZ') == {'HEADER': 'FLAVOPROTEIN', 'DATE': '05-JUN-18', 'pdb_entry': '5ZZZ'}
+    assert pdb_extr.header_extract('HEADER    FLAVOPROTEIN                            05-JUN-18   ') == {'HEADER': 'ERROR', 'DATE': 'ERROR', 'pdb_entry': 'ERROR'}
 
 
 def test_expression_taxid_extract():
     """Perform unit tests on expression_taxid_extract"""
     #assert pdb_extr.expression_taxid_extract('SOURCE   7 EXPRESSION_SYSTEM_TAXID: 562') == {'SOURCE_EXPRESSION_SYSTEM_TAXID': '562'}
     assert pdb_extr.expression_taxid_extract('SOURCE   7 EXPRESSION_SYSTEM_TAXID: 562') == '562'
+    assert pdb_extr.expression_taxid_extract('SOURCE   7 EXPRESSION_SYSTEM_TAXID 562') == 'ERROR'
 
 
 def test_source_organism_taxid():
     """Perform unit tests on source_organism_taxid_extract """
     assert pdb_extr.source_organsim_taxid_extract('SOURCE   4 ORGANISM_TAXID: 31958;')  == '31958'
+    assert pdb_extr.source_organsim_taxid_extract('SOURCE   4 ORGANISM_TAXID 31958;')  == 'ERROR'
 
 
 def test_keywords_extract():
@@ -24,6 +27,7 @@ def test_keywords_extract():
 def test_experimental_method_extract():
     """Perform unit tests on extracting the experimental method"""
     assert pdb_extr.experimental_method_extract('EXPDTA    X-RAY DIFFRACTION') == {'EXPDTA': 'X-RAY DIFFRACTION'}
+    assert pdb_extr.experimental_method_extract('EXPDTA') == {'EXPDTA': 'ERROR'}
 
 
 def test_journal_doi_extract():
@@ -70,16 +74,19 @@ def test_which_beamline():
 def test_which_intensity_integration_software():
     """Perform unit tests on which_intensity_integration_software"""
     assert pdb_extr.which_intensity_integration_software('REMARK 200  INTENSITY-INTEGRATION SOFTWARE : HKL-2000') == {'INTENSITY_INTEGRATION_SOFTWARE': 'HKL-2000'}
+    assert pdb_extr.which_intensity_integration_software('REMARK 200  INTENSITY-INTEGRATION SOFTWARE  HKL-2000') == {'INTENSITY_INTEGRATION_SOFTWARE': 'ERROR'}
 
 
 def test_which_scaling_software():
     """Perform unit tests on which_scaling_software"""
     assert pdb_extr.which_scaling_software('REMARK 200  DATA SCALING SOFTWARE          : HKL-2000') == {'DATA_SCALING_SOFTWARE': 'HKL-2000'} 
+    assert pdb_extr.which_scaling_software('REMARK 200  DATA SCALING SOFTWARE           HKL-2000') == {'DATA_SCALING_SOFTWARE': 'ERROR'} 
 
 
 def test_which_method_of_structure_determination():
     """Perform unit tests on which_method_of_structure_determination"""
     assert pdb_extr.which_method_of_structure_determination('REMARK 200 METHOD USED TO DETERMINE THE STRUCTURE: MOLECULAR REPLACEMENT') == {'METHOD_TO_DETERMINE_STRUCTURE': 'MOLECULAR REPLACEMENT'}
+    assert pdb_extr.which_method_of_structure_determination('REMARK 200 METHOD USED TO DETERMINE THE STRUCTURE MOLECULAR REPLACEMENT') == {'METHOD_TO_DETERMINE_STRUCTURE': 'ERROR'}
 
 
 def test_which_software_structure_determination():
