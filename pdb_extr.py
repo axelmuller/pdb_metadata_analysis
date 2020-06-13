@@ -3,12 +3,16 @@ import numpy as np
 import re
 import  string
 
+def error():
+    """returns an error message"""
+    return('ERROR CHECK ENTRY')
+
 def header_extract(header):
     """Extracts a name, date of submission and pdb Id into a dictionary"""
     split = header.split()
     out_dict = {'HEADER': split[1], 
                 'DATE': split[2], 
-                'pdb_entry': split[3]}
+                'pdb_entry': split[-1]}
     return(out_dict)
 
 def expression_taxid_extract(expression_system_taxid_entry):
