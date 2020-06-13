@@ -4,7 +4,7 @@ import gzip
 import re
 import csv
 
-outputfile = 'metadata.csv'
+outputfile = 'metadata_with_errorhandling.csv'
 
 pdb_folders_location = '/home/axel/Documents/DataScience/projects/pdb/pdb'
 pdb_folders = os.listdir(pdb_folders_location)
@@ -94,50 +94,116 @@ for pdb_location_item in pdb_location:
             with open(outputfile, 'a') as o:
                 for line in f:
                     if  re.match('^HEADER', line):
-                        out_dict = pdb_extr.header_extract(line)
-                        temp_dict.update(out_dict)
+                        try:
+                            out_dict = pdb_extr.header_extract(line)
+                            temp_dict.update(out_dict)
+                        except:
+                            print('ERROR: ' + temp_dict['pdb_entry'] + line)
                     elif expr_sys.search(line):
-                        temp_dict['SOURCE_EXPRESSION_SYSTEM_TAXID'].append(pdb_extr.expression_taxid_extract(line))
+                        try:
+                            temp_dict['SOURCE_EXPRESSION_SYSTEM_TAXID'].append(pdb_extr.expression_taxid_extract(line))
+                        except:
+                            print('ERROR: ' + temp_dict['pdb_entry'] + line)
                     elif organism_id.search(line):
-                        temp_dict['SOURCE_ORGANISM_TAXID'] = pdb_extr.source_organsim_taxid_extract(line)
+                        try:
+                            temp_dict['SOURCE_ORGANISM_TAXID'] = pdb_extr.source_organsim_taxid_extract(line)
+                        except:
+                            print('ERROR: ' + temp_dict['pdb_entry'] + line)
                     elif re.match('^KEYWDS', line):
-                        temp_dict['KEYWDS'] = pdb_extr.keywords_extract(line)
+                        try:
+                            temp_dict['KEYWDS'] = pdb_extr.keywords_extract(line)
+                        except:
+                            print('ERROR: ' + temp_dict['pdb_entry'] + line)
                     elif re.match('^EXPDTA', line):
-                        temp_dict.update(pdb_extr.experimental_method_extract(line))
+                        try:
+                            temp_dict.update(pdb_extr.experimental_method_extract(line))
+                        except:
+                            print('ERROR: ' + temp_dict['pdb_entry'] + line)
                     elif jrnl_doi.search(line):
-                        temp_dict['JRNL_DOI'].append(pdb_extr.journal_doi_extract(line))
+                        try:
+                            temp_dict['JRNL_DOI'].append(pdb_extr.journal_doi_extract(line))
+                        except:
+                            print('ERROR: ' + temp_dict['pdb_entry'] + line)
                     elif resolution.search(line):
-                        temp_dict.update(pdb_extr.resolution_extract(line))
+                        try:
+                            temp_dict.update(pdb_extr.resolution_extract(line))
+                        except:
+                            print('ERROR: ' + temp_dict['pdb_entry'] + line)
                     elif refinement_software.search(line):
-                        temp_dict.update(pdb_extr.refinement_program_extract(line))
+                        try:
+                            temp_dict.update(pdb_extr.refinement_program_extract(line))
+                        except:
+                            print('ERROR: ' + temp_dict['pdb_entry'] + line)
                     elif temperature.search(line):
-                        temp_dict.update(pdb_extr.temperature_extract(line))
+                        try:
+                            temp_dict.update(pdb_extr.temperature_extract(line))
+                        except:
+                            print('ERROR: ' + temp_dict['pdb_entry'] + line)
                     elif  pH.search(line):
-                        temp_dict.update(pdb_extr.pH_extract(line))
+                        try:
+                            temp_dict.update(pdb_extr.pH_extract(line))
+                        except:
+                            print('ERROR: ' + temp_dict['pdb_entry'] + line)
                     elif  synchrotron.search(line):
-                        temp_dict.update(pdb_extr.is_synchrotron(line))
+                        try:
+                            temp_dict.update(pdb_extr.is_synchrotron(line))
+                        except:
+                            print('ERROR: ' + temp_dict['pdb_entry'] + line)
                     elif radiation_source.search(line):
-                        temp_dict.update(pdb_extr.radiation_source_extract(line))
+                        try:
+                            temp_dict.update(pdb_extr.radiation_source_extract(line))
+                        except:
+                            print('ERROR: ' + temp_dict['pdb_entry'] + line)
                     elif beamline.search(line):
-                        temp_dict.update(pdb_extr.which_beamline(line))
+                        try:
+                            temp_dict.update(pdb_extr.which_beamline(line))
+                        except:
+                            print('ERROR: ' + temp_dict['pdb_entry'] + line)
                     elif intensity_integration.search(line):
-                        temp_dict.update(pdb_extr.which_intensity_integration_software(line))
+                        try:
+                            temp_dict.update(pdb_extr.which_intensity_integration_software(line))
+                        except:
+                            print('ERROR: ' + temp_dict['pdb_entry'] + line)
                     elif scaling_software.search(line):
-                        temp_dict.update(pdb_extr.which_scaling_software(line))
+                        try:
+                            temp_dict.update(pdb_extr.which_scaling_software(line))
+                        except:
+                            print('ERROR: ' + temp_dict['pdb_entry'] + line)
                     elif structure_method.search(line):
-                        temp_dict.update(pdb_extr.which_method_of_structure_determination(line))
+                        try:
+                            temp_dict.update(pdb_extr.which_method_of_structure_determination(line))
+                        except:
+                            print('ERROR: ' + temp_dict['pdb_entry'] + line)
                     elif mr_software.search(line):
-                        temp_dict.update(pdb_extr.which_software_struture_determination(line))
+                        try:
+                            temp_dict.update(pdb_extr.which_software_struture_determination(line))
+                        except:
+                            print('ERROR: ' + temp_dict['pdb_entry'] + line)
                     elif starting_model.search(line):
-                        temp_dict.update(pdb_extr.which_model(line))
+                        try:
+                            temp_dict.update(pdb_extr.which_model(line))
+                        except:
+                            print('ERROR: ' + temp_dict['pdb_entry'] + line)
                     elif solvent_content.search(line):
-                        temp_dict.update(pdb_extr.solvent_content_extract(line))
+                        try:
+                            temp_dict.update(pdb_extr.solvent_content_extract(line))
+                        except:
+                            print('ERROR: ' + temp_dict['pdb_entry'] + line)
                     elif matthews.search(line):
-                        temp_dict.update(pdb_extr.matthews_extract(line))
+                        try:
+                            temp_dict.update(pdb_extr.matthews_extract(line))
+                        except:
+                            print('ERROR: ' + temp_dict['pdb_entry'] + line)
                     elif re.match('^HETNAM', line):
-                        temp_dict['HETNAM'].append(pdb_extr.hetnam_extract(line))
+                        try:
+                            temp_dict['HETNAM'].append(pdb_extr.hetnam_extract(line))
+                        except:
+                            print('ERROR: ' + temp_dict['pdb_entry'] + line)
                     elif re.match('^CRYST', line):
-                        temp_dict.update(pdb_extr.unit_cell_extract(line))
+                        try:
+                            temp_dict.update(pdb_extr.unit_cell_extract(line))
+                        except:
+                            print('ERROR: ' + temp_dict['pdb_entry'] + line)
                         
                 dict_values = list(temp_dict.values()) 
                 out_string = '~'.join([str(elem) for elem in dict_values]) 
