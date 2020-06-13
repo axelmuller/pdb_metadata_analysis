@@ -5,7 +5,7 @@ import re
 import csv
 import copy
 
-outputfile = 'metadata_with_errorhandling.csv'
+outputfile = 'metadata.csv'
 
 pdb_folders_location = '/home/axel/Documents/DataScience/projects/pdb/pdb'
 pdb_folders = os.listdir(pdb_folders_location)
@@ -93,58 +93,58 @@ for pdb_location_item in pdb_location:
     for pdb in os.listdir(pdb_location_item):
         pdb_path = pdb_location_item + '/' + pdb
         if pdb_path.endswith(".txt"):
-        with gzip.open(pdb_path, 'rt') as f:
-            with open(outputfile, 'a') as o:
-                for line in f:
-                    if  re.match('^HEADER', line):
-                        out_dict = pdb_extr.header_extract(line)
-                        temp_dict.update(out_dict)
-                    elif expr_sys.search(line):
-                        temp_dict['SOURCE_EXPRESSION_SYSTEM_TAXID'].append(pdb_extr.expression_taxid_extract(line))
-                    elif organism_id.search(line):
-                        temp_dict['SOURCE_ORGANISM_TAXID'] = pdb_extr.source_organsim_taxid_extract(line)
-                    elif re.match('^KEYWDS', line):
-                        temp_dict['KEYWDS'] = pdb_extr.keywords_extract(line)
-                    elif re.match('^EXPDTA', line):
-                        temp_dict.update(pdb_extr.experimental_method_extract(line))
-                    elif jrnl_doi.search(line):
-                        temp_dict['JRNL_DOI'].append(pdb_extr.journal_doi_extract(line))
-                    elif resolution.search(line):
-                        temp_dict.update(pdb_extr.resolution_extract(line))
-                    elif refinement_software.search(line):
-                        temp_dict.update(pdb_extr.refinement_program_extract(line))
-                    elif temperature.search(line):
-                        temp_dict.update(pdb_extr.temperature_extract(line))
-                    elif  pH.search(line):
-                        temp_dict.update(pdb_extr.pH_extract(line))
-                    elif  synchrotron.search(line):
-                        temp_dict.update(pdb_extr.is_synchrotron(line))
-                    elif radiation_source.search(line):
-                        temp_dict.update(pdb_extr.radiation_source_extract(line))
-                    elif beamline.search(line):
-                        temp_dict.update(pdb_extr.which_beamline(line))
-                    elif intensity_integration.search(line):
-                        temp_dict.update(pdb_extr.which_intensity_integration_software(line))
-                    elif scaling_software.search(line):
-                        temp_dict.update(pdb_extr.which_scaling_software(line))
-                    elif structure_method.search(line):
-                        temp_dict.update(pdb_extr.which_method_of_structure_determination(line))
-                    elif mr_software.search(line):
-                        temp_dict.update(pdb_extr.which_software_struture_determination(line))
-                    elif starting_model.search(line):
-                        temp_dict.update(pdb_extr.which_model(line))
-                    elif solvent_content.search(line):
-                        temp_dict.update(pdb_extr.solvent_content_extract(line))
-                    elif matthews.search(line):
-                        temp_dict.update(pdb_extr.matthews_extract(line))
-                    elif re.match('^HETNAM', line):
-                        temp_dict['HETNAM'].append(pdb_extr.hetnam_extract(line))
-                    elif re.match('^CRYST', line):
-                        temp_dict.update(pdb_extr.unit_cell_extract(line))
-                    elif re.match('^END', line):
-                        dict_values = list(temp_dict.values()) 
-                        temp_dict = copy.deepcopy(empty_dict)
-                        out_string = '~'.join([str(elem) for elem in dict_values]) 
-                        o.write(out_string + '\n')
+            with gzip.open(pdb_path, 'rt') as f:
+                with open(outputfile, 'a') as o:
+                    for line in f:
+                        if  re.match('^HEADER', line):
+                            out_dict = pdb_extr.header_extract(line)
+                            temp_dict.update(out_dict)
+                        elif expr_sys.search(line):
+                            temp_dict['SOURCE_EXPRESSION_SYSTEM_TAXID'].append(pdb_extr.expression_taxid_extract(line))
+                        elif organism_id.search(line):
+                            temp_dict['SOURCE_ORGANISM_TAXID'] = pdb_extr.source_organsim_taxid_extract(line)
+                        elif re.match('^KEYWDS', line):
+                            temp_dict['KEYWDS'] = pdb_extr.keywords_extract(line)
+                        elif re.match('^EXPDTA', line):
+                            temp_dict.update(pdb_extr.experimental_method_extract(line))
+                        elif jrnl_doi.search(line):
+                            temp_dict['JRNL_DOI'].append(pdb_extr.journal_doi_extract(line))
+                        elif resolution.search(line):
+                            temp_dict.update(pdb_extr.resolution_extract(line))
+                        elif refinement_software.search(line):
+                            temp_dict.update(pdb_extr.refinement_program_extract(line))
+                        elif temperature.search(line):
+                            temp_dict.update(pdb_extr.temperature_extract(line))
+                        elif  pH.search(line):
+                            temp_dict.update(pdb_extr.pH_extract(line))
+                        elif  synchrotron.search(line):
+                            temp_dict.update(pdb_extr.is_synchrotron(line))
+                        elif radiation_source.search(line):
+                            temp_dict.update(pdb_extr.radiation_source_extract(line))
+                        elif beamline.search(line):
+                            temp_dict.update(pdb_extr.which_beamline(line))
+                        elif intensity_integration.search(line):
+                            temp_dict.update(pdb_extr.which_intensity_integration_software(line))
+                        elif scaling_software.search(line):
+                            temp_dict.update(pdb_extr.which_scaling_software(line))
+                        elif structure_method.search(line):
+                            temp_dict.update(pdb_extr.which_method_of_structure_determination(line))
+                        elif mr_software.search(line):
+                            temp_dict.update(pdb_extr.which_software_struture_determination(line))
+                        elif starting_model.search(line):
+                            temp_dict.update(pdb_extr.which_model(line))
+                        elif solvent_content.search(line):
+                            temp_dict.update(pdb_extr.solvent_content_extract(line))
+                        elif matthews.search(line):
+                            temp_dict.update(pdb_extr.matthews_extract(line))
+                        elif re.match('^HETNAM', line):
+                            temp_dict['HETNAM'].append(pdb_extr.hetnam_extract(line))
+                        elif re.match('^CRYST', line):
+                            temp_dict.update(pdb_extr.unit_cell_extract(line))
+                        elif re.match('^END', line):
+                            dict_values = list(temp_dict.values()) 
+                            temp_dict = copy.deepcopy(empty_dict)
+                            out_string = '~'.join([str(elem) for elem in dict_values]) 
+                            o.write(out_string + '\n')
 
 
