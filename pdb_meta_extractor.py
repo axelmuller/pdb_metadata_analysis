@@ -92,7 +92,7 @@ counter = 0
 for pdb_location_item in pdb_location:
     for pdb in os.listdir(pdb_location_item):
         pdb_path = pdb_location_item + '/' + pdb
-        if pdb_path.endswith(".txt"):
+        if pdb_path.endswith(".gz"):
             with gzip.open(pdb_path, 'rt') as f:
                 with open(outputfile, 'a') as o:
                     for line in f:
