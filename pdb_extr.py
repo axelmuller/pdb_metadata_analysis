@@ -8,17 +8,15 @@ def error():
     return('ERROR CHECK ENTRY')
 
 def header_extract(header):
-    """Extracts a name, date of submission and pdb Id into a dictionary"""
+    """Extracts date of submission and pdb Id into a dictionary"""
     split = header.split()
     try:
-        out_dict = {'HEADER': split[1], 
-                    'DATE': split[2], 
-                    'pdb_entry': split[3]}
+        out_dict = {'DATE': split[-2], 
+                    'pdb_entry': split[-1]}
     except:
-        out_dict = {'HEADER': 'ERROR', 
-                    'DATE': 'ERROR', 
-                    'pdb_entry': 'ERROR'}
+        out_dict = {}
     return(out_dict)
+
 
 def expression_taxid_extract(expression_system_taxid_entry):
     """Exctracts the TAXID of the expression system"""

@@ -5,14 +5,12 @@ import re
 import csv
 import copy
 
-outputfile = 'metadata.csv'
+outputfile = 'metadata_tabs.csv'
 
 pdb_folders_location = '/home/axel/Documents/DataScience/projects/pdb/pdb'
 pdb_folders = os.listdir(pdb_folders_location)
 
-empty_dict = {'CHECK': 'OK',
-              'HEADER': 'NA',
-              'DATE': '01/01/1900',
+empty_dict = {'DATE': '01/01/1900',
               'pdb_entry': 'NA',
               'SOURCE_EXPRESSION_SYSTEM_TAXID': [], 
               'SOURCE_ORGANISM_TAXID': [],
@@ -56,7 +54,7 @@ empty_dict = {'CHECK': 'OK',
              }
 
 keys_4_headers = list(empty_dict.keys())
-headers_out = '~'.join(keys_4_headers)
+headers_out = '\t'.join(keys_4_headers)
 
 with open(outputfile, 'w') as o:
     o.write(headers_out.strip() + '\n')
@@ -92,6 +90,7 @@ counter = 0
 for pdb_location_item in pdb_location:
     for pdb in os.listdir(pdb_location_item):
         pdb_path = pdb_location_item + '/' + pdb
+        temp_dict = copy.deepcopy(empty_dict)
         if pdb_path.endswith(".gz"):
             with gzip.open(pdb_path, 'rt') as f:
                 with open(outputfile, 'a') as o:
@@ -142,9 +141,8 @@ for pdb_location_item in pdb_location:
                         elif re.match('^CRYST', line):
                             temp_dict.update(pdb_extr.unit_cell_extract(line))
                         elif re.match('^END', line):
-                            dict_values = list(temp_dict.values()) 
-                            temp_dict = copy.deepcopy(empty_dict)
-                            out_string = '~'.join([str(elem) for elem in dict_values]) 
+                            dict_values = list(temp_dict.values())
+                            out_string = '\t'.join([str(elem) for elem in dict_values])
                             o.write(out_string + '\n')
 
 

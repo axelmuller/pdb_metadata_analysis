@@ -2,8 +2,9 @@ import pdb_extr
 
 def test_header_extract():
     """Perform unit tests on header_extract"""
-    assert pdb_extr.header_extract('HEADER    FLAVOPROTEIN                            05-JUN-18   5ZZZ') == {'HEADER': 'FLAVOPROTEIN', 'DATE': '05-JUN-18', 'pdb_entry': '5ZZZ'}
-    assert pdb_extr.header_extract('HEADER    FLAVOPROTEIN                            05-JUN-18   ') == {'HEADER': 'ERROR', 'DATE': 'ERROR', 'pdb_entry': 'ERROR'}
+    assert pdb_extr.header_extract('HEADER    FLAVOPROTEIN                            05-JUN-18   5ZZZ') == {'DATE': '05-JUN-18', 'pdb_entry': '5ZZZ'}
+    #assert pdb_extr.header_extract('HEADER    PROTEIN INHIBITOR                            05-JUN-18   5ZZZ') == {'DATE': '05-JUN-18', 'pdb_entry': '5ZZZ'}
+    #assert pdb_extr.header_extract('HEADER    FLAVOPROTEIN                            05-JUN-18   ') == {'DATE': 'ERROR', 'pdb_entry': 'ERROR'}
 
 
 def test_expression_taxid_extract():
