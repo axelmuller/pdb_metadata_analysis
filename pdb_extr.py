@@ -8,10 +8,10 @@ def error():
     return('ERROR CHECK ENTRY')
 
 def header_extract(header):
-    """Extracts date of submission and pdb Id into a dictionary"""
+    """Extracts date of submission and pdb Id into a dictionary. Some entries have the date field merged with the title, hence the [-9:] to ensure only the date is extracted"""
     split = header.split()
     try:
-        out_dict = {'DATE': split[-2], 
+        out_dict = {'DATE': split[-2][-9:], 
                     'pdb_entry': split[-1]}
     except:
         out_dict = {}
